@@ -1,0 +1,24 @@
+[user]
+  email = kangaoyuan@163.com
+  name = gaoyuankan
+[core]
+  ui = true
+  editor = vim
+  autocrlf = false
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  re = remote
+  lg = log --pretty=format:'%an [%ad] %h | %d%s' --graph --date=short
+  d  = difftool
+  type = cat-file -t
+  dump = cat-file -p
+[init]
+  defaultBranch = master
+[pager]
+  branch = false
+[diff]
+  tool = vimdiff
+

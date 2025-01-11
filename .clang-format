@@ -20,12 +20,12 @@ BinPackArguments: true
 BinPackParameters: true
 BraceWrapping:   
   AfterClass:      false
+  AfterStruct:     false       
   AfterControlStatement: false
   AfterEnum:       false
-  AfterFunction:   true
+  AfterFunction:   false
   AfterNamespace:  false
   AfterObjCDeclaration: false
-  AfterStruct:     false
   AfterUnion:      false
   BeforeCatch:     true
   BeforeElse:      false
@@ -82,4 +82,3 @@ SpacesInSquareBrackets: false
 Standard:        Latest
 TabWidth:        4
 UseTab:          Never
-...

@@ -1,14 +1,19 @@
-" scientific network
+" scientific network for WSL2
 " export hostip=$(cat /etc/resolv.conf | grep nameserver | awk '{ print $2 }')
 " export http_proxy="http://${hostip}:{proxy_port}"
 " export https_proxy="http://${hostip}:{proxy_port}"
 
 " Avoid au executed more than once.
 if has('autocmd')
+  " au is a feature that trigger actions when certain events happen.
   au!
 endif
 
-" Try to prevent bad habits like using the arrow keys for movement. This is not the only possible bad habit. For example, holding down the h/j/k/l keys for movement, rather than using more efficient movement commands, is also a bad habit. The former is enforceable through a .vimrc, while we don't know how to prevent the latter. Do this in normal mode...
+" 'Q' in normal mode enters Ex mode, almost never want this.
+" As for me, sometimes will touch the Q(shift+q) by mistake.
+nmap Q <Nop>
+
+" Try to prevent bad habits like using the arrow keys for movement. This is not the only possible bad habit. For example, holding down the h/j/k/l keys for movement, rather than using more efficient movement commands, is also a bad habit. The former is enforceable through a .vimrc, while we don't know how to prevent the latter. Do this in normal mode... But it still can't stop to hold down the h/j/k/l, whoop~
 nnoremap <Left>  :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up>    :echoe "Use k"<CR>
@@ -19,27 +24,43 @@ inoremap <Right> <ESC>:echoe "Use l"<CR>
 inoremap <Up>    <ESC>:echoe "Use k"<CR>
 inoremap <Down>  <ESC>:echoe "Use j"<CR>
 
+if has('gui_running')
+  set guifont=FiraCode\ Nerd\ Font\ 16
+  set guifontwide=Noto\ Sans\ Mono\ CJK\ SC\ 17
+
+  let do_syntax_sel_menu = 1
+  let do_no_lazyload_menu = 1
+endif
+
 set number
 set relativenumber
 
 set enc=utf-8
 set fileencodings=ucs-bom,utf-8,gb18030,latin1
 
+" Attention here, we do some work by default and the sequence is stil  important
 source $VIMRUNTIME/ftplugin/man.vim
 source $VIMRUNTIME/vimrc_example.vim
 
-" C++ project generating tags file cmd: `ctags --fields=+iaS --extra=+q
-" -R .`
+" Universal ctags need be installed by linux.
+" C++ project generating tags file cmd: `ctags --fields=+iaS --extra=+q -R .`
 " C project generating tags file cmd: `ctags --language=c --langmap=c:.c.h --fields=+S -R .`
 set tags=./tags;,tags,/usr/local/etc/systags
-set formatoptions+=mM
-" export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu norelativenumber noma' -\""
-set keywordprg=:Man
-set spelllang+=cjk
-"set scrolloff=1
-set linebreak
-set nobackup
 
+" export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu norelativenumber noma' -\""
+set spelllang+=cjk
+set keywordprg=:Man
+set formatoptions+=mM
+
+" reserve offset not to scroll
+set scrolloff=3
+set linebreak
+
+" stop the highlight to search 
+nnoremap <esc>^[ <esc>^[
+nnoremap <esc> :noh<CR>
+
+set nobackup
 if has('persistent_undo')
   set undofile
   " Here for vim syntax, _ is forbiden for all identifier and cotnent
@@ -49,18 +70,10 @@ if has('persistent_undo')
   endif
 endif
 
-"if has('mouse')
-  "if has('gui_running') || (&term =~ 'xterm' && !has('mac'))
-    "set mouse=a
-  "else
-    "set mouse=nvi
-  "endif
-"endif
-
+" Not like arrow key, the mouse maybe useful in many scenario.
 set mouse=a
 
 let s:term_pos = {} " { bufnr: [winheight, n visible lines] }
-
 function! EnterTerminalNormalMode()
     if &buftype != 'terminal' || mode('') != 't'
         return 0
@@ -92,43 +105,57 @@ endfunction
 
 " scrolling up enters normal mode in terminal window, scrolling back to
 " the cursor's location upon entry resumes terminal mode. only limitation
-" is that terminal window must have focus before you can scroll to
+" is that terminal window must be focused before you can scroll to
 " enter normal mode
 tnoremap <silent> <ScrollWheelUp> <c-w>:call EnterTerminalNormalMode()<CR>
 nnoremap <silent> <ScrollWheelDown> <ScrollWheelDown>:call ExitTerminalNormalModeIfBottom()<CR>
 
 
-
-nnoremap <esc>^[ <esc>^[
-nnoremap <esc> :noh<CR>
-
-
 " vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'yegappan/mru'
-Plug 'mbbill/undotree'
+" Cool
+Plug 'uguu-org/vim-matrix-screensaver' " F1
+" Recent files
+Plug 'yegappan/mru' " F2
+" Using vim-eunuch commands can keep the undo records.
+Plug 'mbbill/undotree' " F6
+" NERDTree to show the working directory
+Plug 'preservim/nerdtree' " F7
+" need install fzf package with bat and ripgrep packages to perfect.
+" combining with bat and ripgrep tools, we can set FZF_DEFAULT_COMMAND='rg
+" --files --sortr modified'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim' " F8
+" need install ctags package to show the identifiers through current buffer.
+Plug 'majutsushi/tagbar' " F9
+
 Plug 'morhetz/gruvbox'
 Plug 'mbbill/echofunc'
+" Implement shell feature mapping to vim, such as :Delete, :Move.
 Plug 'tpope/vim-eunuch'
-" leaning some useful :G git commands, such as :Gwrite, :Gread and :0Gclog, :Gblame
+" leaning some useful :G git commands, such as :Gwrite, :Gread, :Gvdiff and :0Gclog, :Gblame.
 Plug 'tpope/vim-fugitive'
-" need install fzf package with bat and ripgrep packages to perfect.
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-" need install ctags package
-Plug 'majutsushi/tagbar'
-Plug 'preservim/nerdtree'
+" <Leader>hu undo stage, <Leader>hs stage, <Leader>hp play difference
+Plug 'airblade/vim-gitgutter'
+" <Leader>cc to comment, <Leader>cu to undo, <Leader>cs to comment multi
+" lines.
 Plug 'preservim/nerdcommenter'
 Plug 'frazrepo/vim-rainbow'
 Plug 'vim-scripts/LargeFile'
+" <C-N> to search words to select or not using n or q
 Plug 'mg979/vim-visual-multi'
 Plug 'vim-airline/vim-airline'
 Plug 'skywind3000/asyncrun.vim'
-" can configure it options to use ctags generating tags file.
+" can configure its options to use ctags generating tags file.
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'uguu-org/vim-matrix-screensaver'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+" I strongly recommend we configure the compile_commands.json to project
+" working directory
+" From Make, we can utilize the bear or compiledb tools.
+" From CMake, we can utilize the option -DCMAKE_EXPORT_COMPILE_COMMANDS=1.
+" A tiny thing we should notice is the possible bug from the mutil-threads, a
+" digression.
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clangd-completer' }
 " This plug needs .md file type to :MarkdownPreview open
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -138,15 +165,19 @@ call plug#end()
 let g:LargeFile = 200
 let g:EchoFuncAutoStarBalloonDeclaration = 0
 
+" configure gruvbox theme
 set bg=dark
 autocmd vimenter * ++nested colorscheme gruvbox
 
 
 nnoremap <F1> :Matrix<CR>
 inoremap <F1> <C-O>:Matrix<CR>
-vnoremap <F1> :w !clip.exe<CR><CR>
-nnoremap <F2> :RainbowToggle<CR>
-inoremap <F2> <C-O>:RainbowToggle<CR>
+" For WSL 
+" vnoremap <F1> :w !clip.exe<CR><CR>
+" For Linux 
+vnoremap <F1> :w !xclip -selection clipboard<CR><CR>
+nnoremap <F2> :MRUToggle<CR>
+inoremap <F2> <C-O>:MRUToggle<CR>
 nnoremap <F3> :YcmDiags<CR>
 inoremap <F3> <C-O>:YcmDiags<CR>
 nnoremap <F4> :cclose<CR>
@@ -159,31 +190,20 @@ nnoremap <F8> :Files<CR>
 inoremap <F8> <C-O>:Files<CR>
 nnoremap <F9> :TagbarToggle<CR>
 inoremap <F9> <C-O>:TagbarToggle<CR>
+nnoremap <F10> :RainbowToggle<CR>
+inoremap <F10> <C-O>:RainbowToggle<CR>
 nnoremap <F12> :MarkdownPreviewToggle<CR>
 inoremap <F12> <C-O>:MarkdownPreviewToggle<CR>
 " <C-i> and <Tab> are strictly equivalent.
 " need install llvm or clang-format package and .clang-fromat config file
-noremap <silent> <S-Tab> :pyxf /usr/share/clang/clang-format-14/clang-format.py<CR>
+noremap <silent> <S-Tab> :pyxf /usr/share/clang/clang-format.py<CR>
 
-" Define :make acutally executing command
-set makeprg=make\ -j4
-" Define Make custom command to execute AsyncRun command to run make
-command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
-nnoremap <F5>  :if g:asyncrun_status != 'running'<bar>
-                 " check if the current buffer is modified
-                 \if &modifiable<bar>
-                   \update<bar>
-                 \endif<bar>
-                 \exec 'Make'<bar>
-               \else<bar>
-                 \AsyncStop<bar>
-               \endif<CR>
 
 if !has('gui_running')
   " nerdcommenter don't add to menu
   let g:NERDMenuMode = 0
 
-  " terminal truecolor, for tmux wo need add below two cmds to .tmux.conf
+  " terminal truecolor, for tmux we need add below two cmds to .tmux.conf
   " set -g default-terminal \"tmux-256color"
   " set -ga terminal-overrides \",*256col*:Tc"
   " if exists('+termguicolors')
@@ -193,14 +213,6 @@ if !has('gui_running')
   "   set termguicolors
   " endif
 
-  " mru need gui resolution.
-  if has('wildmenu')
-    set wildmenu
-    set cpoptions-=<
-    set wildcharm=<C-Z>
-    nnoremap <F10>      :emenu <C-Z>
-    inoremap <F10> <C-O>:emenu <C-Z>
-  endif
 endif
 
 if has('autocmd')
@@ -210,13 +222,21 @@ if has('autocmd')
     setlocal tabstop=8
   endfunction
 
+  let g:asyncrun_open = 10
+
   " choose such as 'source code pro', 'fira code', 'dejavu sans mono for
   " powerline' and so on powerline in system
   let g:airline_powerline_fonts = 1
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#tabline#show_tab_nr = 0
   let g:airline#extensions#tabline#buffer_nr_show = 1
-  let g:airline#extensions#tabline#overflow_marker = '鈥?
+  " Here we use ellipsis, a single character that represent three dots.
+  " For linux, enter insert mode and then press `<C-V> + u2026`, or 
+  " `<C-K> + ,.`
+  " For windows, enter win+r to search charmap and then select a font to
+  " search, click and copy
+  " We can use ga to see the ellipsis inner code
+  let g:airline#extensions#tabline#overflow_marker = '…'
 
   " ycm setting
   let g:ycm_use_clangd = 1
@@ -240,14 +260,14 @@ if has('autocmd')
   nnoremap <Leader>gr :YcmCompleter GoToReferences<CR>
   nnoremap <Leader>gh :YcmCompleter GoToDeclaration<CR>
 
-  au BufRead /usr/include/*  call GnuIndent()
 
   au FileType c,cpp,objc  setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4 cinoptions=:0,g0,(0,w1
   au FileType json        setlocal expandtab shiftwidth=2 softtabstop=2
   au FileType vim         setlocal expandtab shiftwidth=2 softtabstop=2
-  au FileType help        nnoremap <buffer> q <C-W>c
+  au FileType help,man    nnoremap <buffer> q <C-W>c
 
-  let g:asyncrun_open = 10
+  au BufRead /usr/include/*  call GnuIndent()
+
 endif
 
 " automatically close the last quickfix window
@@ -256,31 +276,7 @@ aug QFClose
   au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
 aug END
 
-function! IsGitRepo()
-  " This function requires pip3 install GitPython
-  if has('python')
-  " :PymodeLint check py code, :PymodeLintAuto fix py code
-pythonx << EOF
-try:
-  import git
-except ImportError:
-  pass
-import vim
 
-def is_git_repo():
-  try:
-    _ = git.Repo('.', search_parent_directories=True).git_dir
-    return 1
-  except:
-    return 0
-EOF
-    return pyxeval('is_git_repo()')
-  else
-    return 0
-  endif
-endfunction
-
-"let g:pymode_rope = IsGitRepo()
 let g:pymode_rope_completion = 1
 let g:pymode_reope_complete_on_dot = 0
 let g:pymode_syntax_string_format = 0
@@ -308,6 +304,8 @@ let g:pymode_rope = !empty(finddir('.git', '.;'))
 " augroup END
 
 " setting below options to c syntax highlight config file ~/.vim/syntax/c.vim
+" and  ~/.vim/syntax/cpp.vim to do syntax highlight fine tuning, which will be
+" loaded before the system syntax/c.vim amd syntax/cpp.vim
 " let g:c_gnu = 1
 " let g:c_no_cformat = 1
 " let g:c_space_errors = 1

@@ -1,12 +1,14 @@
 # Arch Linux
 
+虽然学习计算机专业不是为了修电脑和装系统，但如果你连系统都没装过，也确实不太好意思跟亲戚说你是学计算机的。现在机会来了，装一下真机，了解一下安装操作系统都需要经历些什么。
+
 参考资料：[Guide](https://arch.icekylin.online/guide/)、[Arch LinuxTutorial](https://archlinuxstudio.github.io/ArchLinuxTutorial/#/)
 
 [toc]
 
 ### 网络和磁盘准备
 
-现今系统安装基本都以 UEFI + GPT 形式进行，另外 arch linux 的安装需要依赖网络，其中如果使用无线网络安装建议使用英文 WiFi 名称，否则只能依赖于 TAB 补全。
+现今系统安装基本都以 UEFI + GPT 形式进行，另外 Arch Linux 的安装需要依赖网络，其中如果使用无线网络安装建议使用英文 WiFi 名称，否则只能依赖于 TAB 补全。
 
 如果安装的目的是实现双系统不是全新安装，且两个系统共存在同一块设备上，需要先在磁盘中压缩出分配给另一个系统的空闲磁盘大小（这里，只需要有空闲空间即可，不要为分出来的空间创建分区）
 
@@ -28,7 +30,7 @@ $ sudo dd bs=4M if=/path/to/archlinux.so of=/dev/sdx status=progress oflag=sync
 
 ### 进入 BIOS 进行设置
 
-插入 U 盘开机，按下 F2 或 DEL 等键（或者在 Window 中摁住 `Shift` 键同时点击 `重启`）进入 BIOS 界面，找到 **Secure Boot** 选项，Disable 将其禁用；检查 boot 或 **Boot Mode** 选项为 UEFI（only）；调整 **Boot Options** 选项，将 USB 启动顺序调至首位。最后退出保存，系统重启。
+插入 U 盘开机，按下 F2 或 DEL 等键（或者在 Window 中摁住 `Shift` 键同时点击 `重启`）进入 BIOS 界面，找到 **Secure Boot** 选项，Disable 将其禁用；检查 **boot 或 Boot Mode** 选项为 UEFI（only）；调整 **Boot Options** 选项，将 USB 启动顺序调至首位。最后退出保存，系统重启。
 
 ### 进入 Arch Linux 安装环境
 
@@ -262,7 +264,7 @@ $ sudo systemctl enable --now bluetooth							# 启动蓝牙
    #nameserver 8.8.4.4
    #nameserver 2001:4860:4860::8844
    
-   #如果你的路由器可以自动处理 DNS,resolvconf 会在每次网络连接时用路由器的设置覆盖本机/etc/resolv.conf 中的设置，执行如下命令加入不可变标志，使其不能覆盖如上加入的配置。
+   #如果你的路由器可以自动处理 DNS,resolvconf 会在每次网络连接时用路由器的设置覆盖本机 /etc/resolv.conf 中的设置，执行如下命令加入不可变标志，使其不能覆盖如上加入的配置。
    
    $ sudo chattr +i /etc/resolv.conf
    ```
@@ -313,6 +315,10 @@ $ sudo systemctl enable --now bluetooth							# 启动蓝牙
    $ sudo pacman -S nvidia-prime
    $ yay -S optimus-manager optimus-manager-qt
    $ sudo systemctl enable optimus-manager.service
+   
+   # 注意 xorg,nvidia driver 关系，以及 nvidia-smi 的正确输出。
+   # 如果出现黑屏， 注意进入 tty cli terminal 后，重新安装显卡驱动，窗口管理器、重新生成配置文件。
+   例如：$ sudo rm -rf /etc/X11/xorg.conf
    ```
 
 ### Proxy 的 Magic 魔法学院
@@ -322,7 +328,7 @@ $ sudo pacman -S v2ray v2raya
 $ yay -S v2raya-bin	# $sudo pacman -S v2raya 失败时
 $ sudo systemctl enable --now v2raya
 $ sudo systemctl enable --now v2raya
-# 搜索 v2rayA，点击即可打开浏览器页面。在其中加入订阅，设置中建议开启全局透明代理(选择大陆白名单)，同时开启防止 DNS 劫持功能。
+# 桌面搜索 v2rayA，点击即可打开浏览器页面。在其中加入订阅，设置中建议开启全局透明代理(选择大陆白名单)，同时开启防止 DNS 劫持功能。
 # 设置系统代理。KDE 的系统设置 -> 网络设置 -> 代理中设置 SOCKS5 代理以及 HTTP 代理。
 # 如果对于一个应用，KDE 系统代理不生效，在终端 export 了 ALL_PROXY 变量再用终端启动此应用代理也不生效，并且这个应用自身也没有配置代理的选项，此时可以尝试使用 proxychains-ng。
 ```
@@ -330,3 +336,5 @@ $ sudo systemctl enable --now v2raya
 ### Easter Egg
 
 [copy.sh](https://copy.sh/v86/?profile=archlinux) 打开看看呗！不会害你的，嘻嘻！
+
+学会提问（搜索）的艺术，STFW 尤其是相关论坛，RTFM 搜索相关文档。弄清每一步逻辑后，缩小问题范围，最后再掌控细节。AI agent 也是我们的好帮手哦！你我都要有呢！

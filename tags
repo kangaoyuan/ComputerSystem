@@ -48,8 +48,8 @@
 <F1>	.vimrc	/^vnoremap <F1> :w !xclip -selection clipboard<CR><CR>$/;"	m
 <F2>	.vimrc	/^inoremap <F2> <C-O>:MRUToggle<CR>$/;"	m
 <F2>	.vimrc	/^nnoremap <F2> :MRUToggle<CR>$/;"	m
-<F3>	.vimrc	/^inoremap <F3> <C-O>:YcmDiags<CR>$/;"	m
-<F3>	.vimrc	/^nnoremap <F3> :YcmDiags<CR>$/;"	m
+<F3>	.vimrc	/^inoremap <F3> <C-O>:call YcmDiagsToggle()<CR>$/;"	m
+<F3>	.vimrc	/^nnoremap <F3> :call YcmDiagsToggle()<CR>$/;"	m
 <F4>	.vimrc	/^nnoremap <F4> :cclose<CR>$/;"	m
 <F6>	.vimrc	/^inoremap <F6> <C-O>:UndotreeToggle<CR>$/;"	m
 <F6>	.vimrc	/^nnoremap <F6> :UndotreeToggle<CR>$/;"	m
@@ -75,16 +75,35 @@
 <esc>	.vimrc	/^nnoremap <esc> :noh<CR>$/;"	m
 <esc>^[	.vimrc	/^nnoremap <esc>^[ <esc>^[$/;"	m
 Arch Linux	Arch_Linux.md	/^# Arch Linux$/;"	c
-ComputerSystem	README.md	/^# ComputerSystem$/;"	c
+Computer System	README.md	/^# Computer System$/;"	c
+Conflict	Vim.md	/^### Conflict$/;"	S	section:Vim""Tricks
+Cursor	Vim.md	/^## Cursor $/;"	s	chapter:Vim
 Easter Egg	Arch_Linux.md	/^### Easter Egg$/;"	S	chapter:Arch Linux
+Easter Eggs	Vim.md	/^### Easter Eggs$/;"	S	section:Vim""Tricks
 EnterTerminalNormalMode	.vimrc	/^function! EnterTerminalNormalMode()$/;"	f
 ExitTerminalNormalModeIfBottom	.vimrc	/^function! ExitTerminalNormalModeIfBottom()$/;"	f
 GnuIndent	.vimrc	/^  function! GnuIndent()$/;"	f
+Modification	Vim.md	/^## Modification$/;"	s	chapter:Vim
 Proxy 的 Magic 魔法学院	Arch_Linux.md	/^### Proxy 的 Magic 魔法学院$/;"	S	chapter:Arch Linux
 Q	.vimrc	/^nmap Q <Nop>$/;"	m
 QFClose	.vimrc	/^aug QFClose$/;"	a
+Shortcut	Vim.md	/^### Shortcut$/;"	S	section:Vim""Tricks
+Text and encoding	Vim.md	/^## Text and encoding$/;"	s	chapter:Vim
+Tricks	Vim.md	/^## Tricks  $/;"	s	chapter:Vim
+Vim	Vim.md	/^# Vim  $/;"	c
+Vim Concept	Vim.md	/^## Vim Concept$/;"	s	chapter:Vim
+Vim Function	Vim.md	/^## Vim Function$/;"	s	chapter:Vim
+Vim Mode	Vim.md	/^## Vim Mode  $/;"	s	chapter:Vim
+Vim Script	Vim.md	/^## Vim Script  $/;"	s	chapter:Vim
+YcmDiagsToggle	.vimrc	/^function! YcmDiagsToggle()$/;"	f
+buffers	Vim.md	/^#### buffers$/;"	t	section:Vim""Vim Concept
+command mode	Vim.md	/^#### command mode$/;"	t	section:Vim""Vim Mode
+configure file	Vim.md	/^#### configure file$/;"	t	section:Vim""Vim Script
+copy、paste	Vim.md	/^#### copy、paste$/;"	t	section:Vim""Modification
+cut、deletion	Vim.md	/^#### cut、deletion$/;"	t	section:Vim""Modification
 do_no_lazyload_menu	.vimrc	/^  let do_no_lazyload_menu = 1$/;"	v
 do_syntax_sel_menu	.vimrc	/^  let do_syntax_sel_menu = 1$/;"	v
+encoding char	Vim.md	/^#### encoding char$/;"	t	section:Vim""Text and encoding
 g:EchoFuncAutoStarBalloonDeclaration	.vimrc	/^let g:EchoFuncAutoStarBalloonDeclaration = 0$/;"	v
 g:LargeFile	.vimrc	/^let g:LargeFile = 200$/;"	v
 g:NERDMenuMode	.vimrc	/^  let g:NERDMenuMode = 0$/;"	v
@@ -107,7 +126,29 @@ g:ycm_filetype_whitelist	.vimrc	/^  let g:ycm_filetype_whitelist = {$/;"	v
 g:ycm_goto_buffer_command	.vimrc	/^  let g:ycm_goto_buffer_command = 'edit'$/;"	v
 g:ycm_key_invoke_completion	.vimrc	/^  let g:ycm_key_invoke_completion = '<C-Z>'$/;"	v
 g:ycm_use_clangd	.vimrc	/^  let g:ycm_use_clangd = 1$/;"	v
+insert mode	Vim.md	/^#### insert mode$/;"	t	section:Vim""Vim Mode
+inside、around	Vim.md	/^#### inside、around$/;"	t	section:Vim""Modification
+learning content	Schedule.md	/^ # learning content$/;"	c
+line and end of line	Vim.md	/^#### line and end of line$/;"	t	section:Vim""Text and encoding
+location	Vim.md	/^#### location$/;"	t	section:Vim""Cursor
+macro recording	Vim.md	/^#### macro recording$/;"	t	section:Vim""Modification
+mark	Vim.md	/^#### mark$/;"	t	section:Vim""Vim Concept
+match	Vim.md	/^#### match$/;"	t	section:Vim""Vim Function
+moving	Vim.md	/^#### moving$/;"	t	section:Vim""Cursor
+normal mode	Vim.md	/^#### normal mode $/;"	t	section:Vim""Vim Mode
+own configuration	Vim.md	/^#### own configuration  $/;"	t	section:Vim""Vim Script
+plug manager	Vim.md	/^#### plug manager$/;"	t	section:Vim""Vim Script
+register	Vim.md	/^#### register$/;"	t	section:Vim""Vim Concept
+regular expression	Vim.md	/^#### regular expression$/;"	t	section:Vim""Vim Function
+repetition	Vim.md	/^#### repetition$/;"	t	section:Vim""Modification
+replace	Vim.md	/^#### replace$/;"	t	section:Vim""Vim Function
+reverse	Vim.md	/^#### reverse$/;"	t	section:Vim""Modification
 s:term_pos	.vimrc	/^let s:term_pos = {} " { bufnr: [winheight, n visible lines] }$/;"	v
+search	Vim.md	/^#### search$/;"	t	section:Vim""Vim Function
+syntax	Vim.md	/^#### syntax$/;"	t	section:Vim""Vim Script
+tabs	Vim.md	/^#### tabs$/;"	t	section:Vim""Vim Concept
+tool	Vim.md	/^#### tool$/;"	t	section:Vim""Text and encoding
+visual mode	Vim.md	/^#### visual mode$/;"	t	section:Vim""Vim Mode
 刻录 U 盘，启动盘	Arch_Linux.md	/^### 刻录 U 盘，启动盘$/;"	S	chapter:Arch Linux
 完成桌面、基础用户配置	Arch_Linux.md	/^### 完成桌面、基础用户配置$/;"	S	chapter:Arch Linux
 网络和磁盘准备	Arch_Linux.md	/^### 网络和磁盘准备$/;"	S	chapter:Arch Linux

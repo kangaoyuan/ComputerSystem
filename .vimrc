@@ -47,7 +47,8 @@ source $VIMRUNTIME/vimrc_example.vim
 " C project generating tags file cmd: `ctags --language=c --langmap=c:.c.h --fields=+S -R .`
 set tags=./tags;,tags,/usr/local/etc/systags
 
-" export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu norelativenumber noma' -\""
+" Linux: export MANPAGER="vim -M +MANPAGER -"
+" WSL: export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu norelativenumber noma' -\""
 set spelllang+=cjk
 set keywordprg=:Man
 set formatoptions+=mM
@@ -129,6 +130,7 @@ Plug 'junegunn/fzf.vim' " F8
 " need install ctags package to show the identifiers through current buffer.
 Plug 'majutsushi/tagbar' " F9
 
+" Colortheme
 Plug 'morhetz/gruvbox'
 Plug 'mbbill/echofunc'
 " Implement shell feature mapping to vim, such as :Delete, :Move.
@@ -169,6 +171,13 @@ let g:EchoFuncAutoStarBalloonDeclaration = 0
 set bg=dark
 autocmd vimenter * ++nested colorscheme gruvbox
 
+function! YcmDiagsToggle()
+  if &filetype != 'qf'
+    YcmDiags
+  else 
+    close
+  endif
+endfunction
 
 nnoremap <F1> :Matrix<CR>
 inoremap <F1> <C-O>:Matrix<CR>
@@ -178,8 +187,8 @@ inoremap <F1> <C-O>:Matrix<CR>
 vnoremap <F1> :w !xclip -selection clipboard<CR><CR>
 nnoremap <F2> :MRUToggle<CR>
 inoremap <F2> <C-O>:MRUToggle<CR>
-nnoremap <F3> :YcmDiags<CR>
-inoremap <F3> <C-O>:YcmDiags<CR>
+nnoremap <F3> :call YcmDiagsToggle()<CR>
+inoremap <F3> <C-O>:call YcmDiagsToggle()<CR>
 nnoremap <F4> :cclose<CR>
 nnoremap <F6> :UndotreeToggle<CR>
 inoremap <F6> <C-O>:UndotreeToggle<CR>

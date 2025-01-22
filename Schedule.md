@@ -3,12 +3,12 @@
 + [x] vim
 + [x] gdb
 + [x] **c/c++**
-+ [x] redis
++ [ ] redis
 + [x] shell
 + [x] **linux**
 + [x] cmake
 + [ ] mysql
-+ [x] docker
++ [ ] docker
 + [x] python
 + [x] compile
 + [x] makefile

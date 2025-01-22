@@ -197,7 +197,7 @@ $ sudo dd bs=4M if=/path/to/archlinux.so of=/dev/sdx status=progress oflag=sync
     # KDE6 默认使用 wayland session 为默认，如果你需要使用 wayland,则需开启 DRM。同样编辑/etc/default/grub 文件，在GRUB_CMDLINE_LINUX_DEFAULT一行中最后的加入参数：nvidia_drm.modeset=1
     # 为了引导 win10，则还需要添加或取消 GRUB_DISABLE_OS_PROBER=false 这一行的注释
     $ grub-mkconfig -o /boot/grub/grub.cfg
-    # 注意一下，如果这里还检测不到 Windows，需要手动干预一下。 
+    # 注意一下，如果这里输出还检测不到 Windows，需要手动干预一下。 
     $ mkdir /boot/EFI/win #创建Windows的启动项挂载路径
     $ mount /dev/nvme0n1p1 /boot/EFI/win #挂载Windows的启动项
     $ grub-mkconfig -o /boot/grub/grub.cfg #再次更新
@@ -332,6 +332,56 @@ $ sudo systemctl enable --now v2raya
 # 设置系统代理。KDE 的系统设置 -> 网络设置 -> 代理中设置 SOCKS5 代理以及 HTTP 代理。
 # 如果对于一个应用，KDE 系统代理不生效，在终端 export 了 ALL_PROXY 变量再用终端启动此应用代理也不生效，并且这个应用自身也没有配置代理的选项，此时可以尝试使用 proxychains-ng。
 ```
+
+### Linux 的开盒即用（环境配置）
+
+**安装软件包**
+
+`sudo apt install/pacman -S g++ gdb cmake python3-dev build-essential`, And then check: vim gcc make git man
+
+**配置 zsh:**
+
+安装 zsh：sudo apt install zsh, 安装 oh-my-zsh：sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
+
+```shell
+$ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+
+$ git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+$git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
+
+下载相关仓库后，在 .zshrc 中，设置 ZSH_THEME="powerlevel10k/powerlevel10k" 主题，和 plugins=(git zsh-autosuggestions zsh-syntax-highlighting z web-search) 插件后，`source ~/.zshrc`。
+
+> 为了 powerlevel10k 主题效果，需要更换 Terminal 终端设置中 powerline font，例如：fira code, source code pro, JetBrains Nerd Font. `$ p10k configure` 可以体验和更换字体和主题。
+
+**配置 ssh:**
+
+```shell
+$ sudo pacman -S openssh
+
+$ ssh-keygen -t ed25519 -C "user_name@xxx.com"
+
+$ eval "$(ssh-agent -s)"
+
+$ ssh-add ~/.ssh/id_ed25519
+```
+
+github user repo setting to configure ~/.ssh/id_ed25519.pub
+
+> ssh -T git@github.com can verify
+
+**配置 vim 和 git**
+
+```shell
+$ sudo pacman -S man man-pages
+
+$ sudo apt install fzf bat ripgrep universal-ctags clangd clang-format
+```
+
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 安装 vim-plug，在 .vimrc 中 :PlugInstall 安装插件。
+
+设置 customized 个人 .vimrc，.gitconfig，包含 .bashrc / .zshrc 相关代码存储在个人仓库中。
 
 ### Easter Egg
 

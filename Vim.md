@@ -2,7 +2,7 @@
 
 Blog：[简明 VIM 练级攻略](https://coolshell.cn/articles/5426.html)
 
-参考资料：[A byte of vim](./resource/A_byte_of_vim.pdf)、[A Vim Guide](http://linuxcommand.org/lc3_adv_vimvigor.php)、[MIT-missing-semester](https://missing.csail.mit.edu/2020/editors/) 、[Vim 实操](https://www.openvim.com/)。
+Reference：[A byte of vim](./resource/A_byte_of_vim.pdf)、[A Vim Guide](http://linuxcommand.org/lc3_adv_vimvigor.php)、[MIT-missing-semester](https://missing.csail.mit.edu/2020/editors/) 、[Vim 实操](https://www.openvim.com/)。
 
 
 
@@ -24,7 +24,7 @@ Vim is an editor, which designed to work with keyboard only, without mouse.
 
 开始学习、复习前，打开终端，键入 `vimtutor`，完成第一步洗礼。以一张速记表善始善终：
 
-<img src=".\image\vim_cheat_sheet_for_programmers_print.png" style="zoom: 200%;" />
+<img src=".\image\vim_cheat_sheet.png" style="zoom: 200%;" />
 
 ## Cursor 
 

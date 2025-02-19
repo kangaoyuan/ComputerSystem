@@ -935,6 +935,52 @@ $ git restore --staged hello.c 			  # restore hello.c in the index from HEAD
 $ git restore --source=HEAD --staged --worktree hello.c
 ```
 
+### Git Submodule
+
+当 A repo 依赖 B repo 时，我们需要一条命令执行时，把 A repo 所依赖的全部 repos 都做检查和更新。
+
+- 新建 submodule
+
+  ```bash
+  $ git submodule add <repo_url>
+  ```
+
+  此时默认当前目录下会出现 <repo\> 仓库和 .gitmodules 文件。
+
+- 查看 submodule
+
+  ```bash
+  $ git submodule status
+  ```
+
+  `git submodule add <repo_url>` 引入的依赖仓库，和正常的 git 仓库一样，`git push`、`git pull` 命令用于本地仓库和远程仓库的同步。
+
+- 更新 submodule
+
+  ```bash
+  $ git submoudle update --remote --merge
+  $ git submoudle update --remote --rebase
+  ```
+
+- 克隆 submodule
+
+  ```bash
+  $ git clone <main_repo>
+  $ git submodule init
+  $ git submoudle update --recursive
+  # equivalent to the above two commands
+  $ git submoudle update --init --recursive
+  # equivalent to the above three commands
+  $ git clone --recurse-submoudle <rep_url>
+  ```
+
+- 删除 submoudle
+
+  ```bash
+  $ git submoudle deinit <sub_repo>
+  $ git rm <sub_repo>
+  $ rm .gitmodules .git/modules/<sub_repo>
+
 ## In a nutshell
 
 git show、git grep、git clean、git blame 等命令内容，可以自行 Google 学习。
@@ -1035,7 +1081,7 @@ Git 引入两个新命令，用于分离 `git checkout` 命令的功能：
 | Command                                      | Scope        | Common use cases                                             |
 | -------------------------------------------- | ------------ | ------------------------------------------------------------ |
 | `git reset [--soft|--mixed|--hard] <commit>` | Commit-level | Switch HEAD and current branch pointing to specified <commit\>. Rewrite working directory or staging area  according to |
-| `git reset <commit> -- <file>`               | File-level   | Using --mixed argument to undo a <file\> from specified <commit\> to staging area |
+| `git reset <commit> -- <file>`               | File-level   | Using --mixed argument to undo a <file\> from specified <commit\> to staging area, not switch HEAD |
 | `git checkout <commit>`                      | Commit-level | Switch HEAD pointing to specified <commit\>, may lead to detached HEAD. |
 | `git checkout <commit> -- <file>`            | File-level   | Discard changes in the working directory from staging area(no <commit\>) or specified <commit\> |
 | `git revert <commit>`                        | Commit-level | Create a new commit, to undo a specified <commit\>, especially in a public branch |

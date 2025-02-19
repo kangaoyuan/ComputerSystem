@@ -341,7 +341,17 @@ $ sudo systemctl enable --now v2raya
 
 **配置 zsh:**
 
-安装 zsh：sudo apt install zsh, 安装 oh-my-zsh：sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
+安装 zsh：
+
+```bash
+$ sudo apt install zsh
+```
+
+安装 oh-my-zsh：
+
+```bash
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
+```
 
 ```shell
 $ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -349,9 +359,13 @@ $ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:
 $ git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
 $git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+$git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+
+$git clone --depth=1 https://github.com/junegunn/fzf.vim.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf
 ```
 
-下载相关仓库后，在 .zshrc 中，设置 ZSH_THEME="powerlevel10k/powerlevel10k" 主题，和 plugins=(git zsh-autosuggestions zsh-syntax-highlighting z web-search) 插件后，`source ~/.zshrc`。
+下载相关仓库后，在 .zshrc 中，设置 ZSH_THEME="powerlevel10k/powerlevel10k" 主题，和 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-syntax-substring-search fzf) 插件后，`source ~/.zshrc`。
 
 > 为了 powerlevel10k 主题效果，需要更换 Terminal 终端设置中 powerline font，例如：fira code, source code pro, JetBrains Nerd Font. `$ p10k configure` 可以体验和更换字体和主题。
 
